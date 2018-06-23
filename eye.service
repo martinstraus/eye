@@ -1,0 +1,7 @@
+[Unit]
+Description = Eye agent
+After network.target = auditd.service
+
+[Service]
+Type = simple
+ExecStart = /opt/eye/eye-agent
