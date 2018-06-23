@@ -31,29 +31,30 @@ func main() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	var freeSpace = availableSpace()
-	var message = message(conf.Threshold, freeSpace)
+	var total, free = discSpaceInfo()
+	var message = message(conf.Threshold, total, free)
 	fmt.Println(message)
-	if freeSpace < conf.Threshold {
+	if free < conf.Threshold {
 		notify(conf.Email, message)
 	}
 }
 
-func message(threshold uint64, freeSpace uint64) string {
+func message(threshold uint64, totalSpace uint64, freeSpace uint64) string {
 	return fmt.Sprintf(
-		"There're %s available of a minimum %s.\n",
+		"There're %s available of a total %s. The minimum is %s.\n",
 		humanize.Bytes(freeSpace),
+		humanize.Bytes(totalSpace),
 		humanize.Bytes(threshold),
 	)
 }
 
-func availableSpace() uint64 {
+func discSpaceInfo() (uint64, uint64) {
 	var stat syscall.Statfs_t
 	wd, _ := os.Getwd()
 
 	syscall.Statfs(wd, &stat)
 	// Available blocks * size per block = available space in bytes
-	return stat.Bavail * uint64(stat.Bsize)
+	return stat.Blocks * uint64(stat.Bsize), stat.Bavail * uint64(stat.Bsize)
 }
 
 func notify(conf Email, message string) {
