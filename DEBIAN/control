@@ -1,0 +1,10 @@
+Package: eye
+Version: 1.0-1
+Section: base
+Priority: optional
+Architecture: i386
+Depends:
+Maintainer: Martín Straus <martinstraus@gmail.com>
+Description: Eye is a program that sends you an
+ email when the free space in the filesystem is
+ less than the minimum.

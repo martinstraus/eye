@@ -1,0 +1,4 @@
+#!/bin/sh
+
+systemctl stop eye.service
+systemctl disable eye.service

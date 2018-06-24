@@ -1,0 +1,4 @@
+#!/bin/sh
+
+systemctl enable eye.service
+systemctl start eye.service
